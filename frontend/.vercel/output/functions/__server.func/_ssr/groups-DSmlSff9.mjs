@@ -1,12 +1,12 @@
 import { r as __toESM } from "../_runtime.mjs";
 import { a as groups } from "./mock-data-DnTK_NLz.mjs";
-import { a as deleteMembership, c as fetchGroups, d as registerUser, n as createGroup, r as createMembership, u as fetchUsers } from "./api-CFou-uru.mjs";
+import { a as deleteMembership, c as fetchGroups, d as registerUser, n as createGroup, r as createMembership, u as fetchUsers } from "./api-CzVMe15H.mjs";
 import { n as require_react } from "../_libs/@radix-ui/react-compose-refs+[...].mjs";
 import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
 import { E as Check, d as Receipt, f as Plus, h as LoaderCircle, n as Users, r as UserPlus, t as X, w as Clock } from "../_libs/lucide-react.mjs";
 import { t as Button } from "./button-BpE9Czok.mjs";
 import { t as Input } from "./input-NvmijQlt.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/groups-Bgq7eheO.js
+//#region node_modules/.nitro/vite/services/ssr/assets/groups-DSmlSff9.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function GroupsPage() {

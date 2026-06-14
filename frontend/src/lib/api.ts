@@ -15,7 +15,7 @@ let dynamicMembersMap: Record<string, { name: string; avatar: string }> = {};
 export function updateMembersCache(users: any[]) {
   users.forEach((u) => {
     const cleanId = String(u.id);
-    if (!membersMap[cleanId] && !dynamicMembersMap[cleanId]) {
+    if (!dynamicMembersMap[cleanId]) {
       // Pick a deterministic avatar based on ID
       const avatarIds = [
         "1534528741775-53994a69daeb",
@@ -35,7 +35,7 @@ export function updateMembersCache(users: any[]) {
 
 function resolveMember(id: number | string) {
   const cleanId = String(id).replace(/[^\d]/g, "");
-  return membersMap[cleanId] || dynamicMembersMap[cleanId] || { name: `Member ${id}`, avatar: mockMembers[0].avatar };
+  return dynamicMembersMap[cleanId] || membersMap[cleanId] || { name: `Member ${id}`, avatar: mockMembers[0].avatar };
 }
 
 export async function fetchUsers() {
@@ -80,7 +80,7 @@ export async function fetchGroups() {
       // Map members dynamically for each group based on memberships or assign a sensible subset
       return Promise.all(data.map(async (g: any) => {
         const memberships = await fetchGroupMemberships(g.id);
-        let groupMembers = mockMembers.slice(0, 4);
+        let groupMembers: any[] = [];
         if (memberships && memberships.length > 0) {
           groupMembers = memberships.map((m: any) => {
             const memberInfo = resolveMember(m.user_id);
@@ -91,6 +91,8 @@ export async function fetchGroups() {
               joinDate: m.joined_at,
             };
           });
+        } else if (g.id <= 2) {
+          groupMembers = mockMembers.slice(0, 4);
         }
         return {
           id: `g${g.id}`,

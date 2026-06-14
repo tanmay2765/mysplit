@@ -1,5 +1,5 @@
 import { s as members } from "./mock-data-DnTK_NLz.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/api-CFou-uru.js
+//#region node_modules/.nitro/vite/services/ssr/assets/api-CzVMe15H.js
 var API_BASE_URL = "https://shared-expense-api.onrender.com";
 var membersMap = {
 	"1": {
@@ -27,7 +27,7 @@ var dynamicMembersMap = {};
 function updateMembersCache(users) {
 	users.forEach((u) => {
 		const cleanId = String(u.id);
-		if (!membersMap[cleanId] && !dynamicMembersMap[cleanId]) {
+		if (!dynamicMembersMap[cleanId]) {
 			const avatarIds = [
 				"1534528741775-53994a69daeb",
 				"1544005313-94ddf0286df2",
@@ -45,7 +45,7 @@ function updateMembersCache(users) {
 }
 function resolveMember(id) {
 	const cleanId = String(id).replace(/[^\d]/g, "");
-	return membersMap[cleanId] || dynamicMembersMap[cleanId] || {
+	return dynamicMembersMap[cleanId] || membersMap[cleanId] || {
 		name: `Member ${id}`,
 		avatar: members[0].avatar
 	};
@@ -88,7 +88,7 @@ async function fetchGroups() {
 		await fetchUsers();
 		if (data && data.length > 0) return Promise.all(data.map(async (g) => {
 			const memberships = await fetchGroupMemberships(g.id);
-			let groupMembers = members.slice(0, 4);
+			let groupMembers = [];
 			if (memberships && memberships.length > 0) groupMembers = memberships.map((m) => {
 				const memberInfo = resolveMember(m.user_id);
 				return {
@@ -98,6 +98,7 @@ async function fetchGroups() {
 					joinDate: m.joined_at
 				};
 			});
+			else if (g.id <= 2) groupMembers = members.slice(0, 4);
 			return {
 				id: `g${g.id}`,
 				name: g.name,
