@@ -1,12 +1,12 @@
 import { r as __toESM } from "../_runtime.mjs";
 import { a as groups, i as expenses } from "./mock-data-DnTK_NLz.mjs";
-import { a as fetchGroups, i as fetchExpenses, t as createExpense } from "./api-T7pjkkru.mjs";
+import { c as fetchGroups, i as deleteExpense, s as fetchExpenses, t as createExpense, u as fetchUsers } from "./api-CFou-uru.mjs";
 import { n as require_react } from "../_libs/@radix-ui/react-compose-refs+[...].mjs";
 import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
-import { _ as Funnel, c as Search, d as Plus, m as LoaderCircle, t as X } from "../_libs/lucide-react.mjs";
+import { c as Trash2, f as Plus, h as LoaderCircle, l as Search, t as X, v as Funnel } from "../_libs/lucide-react.mjs";
 import { t as Button } from "./button-BpE9Czok.mjs";
 import { t as Input } from "./input-NvmijQlt.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/expenses-DmIFqTqF.js
+//#region node_modules/.nitro/vite/services/ssr/assets/expenses-B0rLp7-X.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var currencySymbol = {
@@ -19,6 +19,7 @@ function ExpensesPage() {
 	const [selected, setSelected] = (0, import_react.useState)(null);
 	const [expensesList, setExpensesList] = (0, import_react.useState)(expenses);
 	const [groupsList, setGroupsList] = (0, import_react.useState)(groups);
+	const [allUsers, setAllUsers] = (0, import_react.useState)([]);
 	const [loading, setLoading] = (0, import_react.useState)(true);
 	const [isAdding, setIsAdding] = (0, import_react.useState)(false);
 	const [title, setTitle] = (0, import_react.useState)("");
@@ -35,6 +36,11 @@ function ExpensesPage() {
 			if (expData) setExpensesList(expData);
 			const grpData = await fetchGroups();
 			if (grpData) setGroupsList(grpData);
+			const usrData = await fetchUsers();
+			if (usrData) {
+				setAllUsers(usrData);
+				if (usrData.length > 0) setPaidBy(String(usrData[0].id));
+			}
 		} catch (err) {
 			console.error(err);
 		} finally {
@@ -64,6 +70,22 @@ function ExpensesPage() {
 		} catch (err) {
 			console.error(err);
 			alert("Failed to add expense");
+		}
+	};
+	const handleDeleteExpense = async (expenseIdStr) => {
+		const cleanId = parseInt(expenseIdStr.replace(/[^\d]/g, ""));
+		if (isNaN(cleanId)) {
+			alert("Cannot delete simulated mock expense.");
+			return;
+		}
+		if (!confirm("Are you sure you want to delete this expense?")) return;
+		try {
+			await deleteExpense(cleanId);
+			setSelected(null);
+			loadData();
+		} catch (err) {
+			console.error(err);
+			alert("Failed to delete expense");
 		}
 	};
 	const filtered = expensesList.filter((e) => e.description.toLowerCase().includes(q.toLowerCase()) || e.paidBy.toLowerCase().includes(q.toLowerCase()));
@@ -166,11 +188,14 @@ function ExpensesPage() {
 								})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
 									className: "text-xs font-bold text-muted-foreground uppercase",
 									children: "Payer"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("select", {
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("select", {
 									value: paidBy,
 									onChange: (e) => setPaidBy(e.target.value),
 									className: "mt-1 flex h-11 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none",
-									children: [
+									children: allUsers.length > 0 ? allUsers.map((u) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", {
+										value: u.id,
+										children: u.name
+									}, u.id)) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", {
 											value: "1",
 											children: "Aisha"
@@ -191,7 +216,7 @@ function ExpensesPage() {
 											value: "5",
 											children: "Meera"
 										})
-									]
+									] })
 								})] })]
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -357,7 +382,7 @@ function ExpensesPage() {
 							]
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("dl", {
-							className: "card-soft divide-y divide-border p-2",
+							className: "card-soft divide-y divide-border p-2 mb-6",
 							children: [
 								["Description", selected.description],
 								["Date", selected.date],
@@ -374,6 +399,12 @@ function ExpensesPage() {
 									children: v
 								})]
 							}, k))
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+							variant: "destructive",
+							className: "w-full rounded-2xl h-11 font-bold flex items-center justify-center gap-2",
+							onClick: () => handleDeleteExpense(selected.id),
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "h-4 w-4" }), " Delete Expense"]
 						})
 					]
 				})

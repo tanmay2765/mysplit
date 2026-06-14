@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Plus, Search, Filter, X, Loader2 } from "lucide-react";
+import { Plus, Search, Filter, X, Loader2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { expenses as mockExpenses, type Expense, groups as mockGroups } from "@/lib/mock-data";
-import { fetchExpenses, createExpense, fetchGroups } from "@/lib/api";
+import { fetchExpenses, createExpense, fetchGroups, fetchUsers, deleteExpense } from "@/lib/api";
 
 export const Route = createFileRoute("/expenses")({
   head: () => ({ meta: [{ title: "Expenses — SplitWell" }, { name: "description", content: "Add and track shared expenses across your groups." }] }),
@@ -18,6 +18,7 @@ function ExpensesPage() {
   const [selected, setSelected] = useState<Expense | null>(null);
   const [expensesList, setExpensesList] = useState<Expense[]>(mockExpenses);
   const [groupsList, setGroupsList] = useState<any[]>(mockGroups);
+  const [allUsers, setAllUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Form states
@@ -38,6 +39,14 @@ function ExpensesPage() {
       
       const grpData = await fetchGroups();
       if (grpData) setGroupsList(grpData);
+
+      const usrData = await fetchUsers();
+      if (usrData) {
+        setAllUsers(usrData);
+        if (usrData.length > 0) {
+          setPaidBy(String(usrData[0].id));
+        }
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -72,6 +81,24 @@ function ExpensesPage() {
     } catch (err) {
       console.error(err);
       alert("Failed to add expense");
+    }
+  };
+
+  const handleDeleteExpense = async (expenseIdStr: string) => {
+    const cleanId = parseInt(expenseIdStr.replace(/[^\d]/g, ""));
+    if (isNaN(cleanId)) {
+      alert("Cannot delete simulated mock expense.");
+      return;
+    }
+    if (!confirm("Are you sure you want to delete this expense?")) return;
+
+    try {
+      await deleteExpense(cleanId);
+      setSelected(null);
+      loadData();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete expense");
     }
   };
 
@@ -128,11 +155,19 @@ function ExpensesPage() {
                 <div>
                   <label className="text-xs font-bold text-muted-foreground uppercase">Payer</label>
                   <select value={paidBy} onChange={(e) => setPaidBy(e.target.value)} className="mt-1 flex h-11 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none">
-                    <option value="1">Aisha</option>
-                    <option value="2">Rohan</option>
-                    <option value="3">Priya</option>
-                    <option value="4">Sam</option>
-                    <option value="5">Meera</option>
+                    {allUsers.length > 0 ? (
+                      allUsers.map((u) => (
+                        <option key={u.id} value={u.id}>{u.name}</option>
+                      ))
+                    ) : (
+                      <>
+                        <option value="1">Aisha</option>
+                        <option value="2">Rohan</option>
+                        <option value="3">Priya</option>
+                        <option value="4">Sam</option>
+                        <option value="5">Meera</option>
+                      </>
+                    )}
                   </select>
                 </div>
               </div>
@@ -209,7 +244,7 @@ function ExpensesPage() {
               <div className="mt-1 text-4xl font-extrabold">{currencySymbol[selected.currency] ?? ""}{selected.amount.toLocaleString()}</div>
               <div className="mt-1 text-sm text-muted-foreground">{selected.currency}</div>
             </div>
-            <dl className="card-soft divide-y divide-border p-2">
+            <dl className="card-soft divide-y divide-border p-2 mb-6">
               {[
                 ["Description", selected.description],
                 ["Date", selected.date],
@@ -223,6 +258,13 @@ function ExpensesPage() {
                 </div>
               ))}
             </dl>
+            <Button
+              variant="destructive"
+              className="w-full rounded-2xl h-11 font-bold flex items-center justify-center gap-2"
+              onClick={() => handleDeleteExpense(selected.id)}
+            >
+              <Trash2 className="h-4 w-4" /> Delete Expense
+            </Button>
           </div>
         </div>
       )}

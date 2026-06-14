@@ -1,27 +1,65 @@
 import { r as __toESM } from "../_runtime.mjs";
 import { a as groups, o as importReports, s as members, u as summary } from "./mock-data-DnTK_NLz.mjs";
-import { a as fetchGroups, i as fetchExpenses } from "./api-T7pjkkru.mjs";
+import { c as fetchGroups, d as registerUser, s as fetchExpenses, u as fetchUsers } from "./api-CFou-uru.mjs";
 import { n as require_react } from "../_libs/@radix-ui/react-compose-refs+[...].mjs";
 import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
-import { C as Clock, D as ArrowUpRight, a as TriangleAlert, d as Plus, i as Upload, m as LoaderCircle, n as Users, r as UserPlus, u as Receipt, w as CircleCheck } from "../_libs/lucide-react.mjs";
+import { O as ArrowUpRight, T as CircleCheck, a as TriangleAlert, d as Receipt, f as Plus, h as LoaderCircle, i as Upload, n as Users, r as UserPlus, t as X, w as Clock } from "../_libs/lucide-react.mjs";
+import { t as Button } from "./button-BpE9Czok.mjs";
+import { t as Input } from "./input-NvmijQlt.mjs";
 import { g as Link } from "../_libs/@tanstack/react-router+[...].mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-DLBFcoss.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-DBAXe7xc.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function Dashboard() {
 	const [groupsList, setGroupsList] = (0, import_react.useState)(groups);
 	const [expensesCount, setExpensesCount] = (0, import_react.useState)(summary.totalExpenses);
+	const [usersCount, setUsersCount] = (0, import_react.useState)(members.length);
 	const [loading, setLoading] = (0, import_react.useState)(true);
+	const [isAddingUser, setIsAddingUser] = (0, import_react.useState)(false);
+	const [newUserName, setNewUserName] = (0, import_react.useState)("");
+	const [newUserEmail, setNewUserEmail] = (0, import_react.useState)("");
+	const [newUserPhone, setNewUserPhone] = (0, import_react.useState)("");
+	const [isRegistering, setIsRegistering] = (0, import_react.useState)(false);
 	(0, import_react.useEffect)(() => {
-		Promise.all([fetchGroups(), fetchExpenses()]).then(([grps, exps]) => {
+		Promise.all([
+			fetchGroups(),
+			fetchExpenses(),
+			fetchUsers()
+		]).then(([grps, exps, usrs]) => {
 			if (grps) setGroupsList(grps);
 			if (exps) setExpensesCount(exps.length);
+			if (usrs) setUsersCount(usrs.length);
 			setLoading(false);
 		});
 	}, []);
+	const handleRegisterUser = async (e) => {
+		e.preventDefault();
+		if (!newUserName.trim() || !newUserEmail.trim()) return;
+		setIsRegistering(true);
+		try {
+			await registerUser({
+				name: newUserName,
+				email: newUserEmail,
+				phone: newUserPhone || void 0,
+				password: "DefaultPassword123"
+			});
+			setNewUserName("");
+			setNewUserEmail("");
+			setNewUserPhone("");
+			setIsAddingUser(false);
+			alert(`User "${newUserName}" successfully added!`);
+			const usrs = await fetchUsers();
+			if (usrs) setUsersCount(usrs.length);
+		} catch (err) {
+			console.error(err);
+			alert(err.message || "Failed to add user.");
+		} finally {
+			setIsRegistering(false);
+		}
+	};
 	const totalGroups = groupsList.length;
 	const totalExpenses = expensesCount;
-	const totalMembers = members.length;
+	const totalMembers = usersCount;
 	const pendingReviews = summary.pendingReviews;
 	const metrics = [
 		{
@@ -59,6 +97,11 @@ function Dashboard() {
 			label: "Add Expense",
 			icon: Plus,
 			to: "/expenses"
+		},
+		{
+			label: "Add User",
+			icon: UserPlus,
+			onClick: () => setIsAddingUser(true)
 		},
 		{
 			label: "Import CSV",
@@ -131,25 +174,31 @@ function Dashboard() {
 				]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
-				className: "card-soft grid grid-cols-1 gap-2 p-3 sm:grid-cols-3",
+				className: "card-soft grid grid-cols-1 gap-2 p-3 sm:grid-cols-2 md:grid-cols-4",
 				children: quickActions.map((a) => {
 					const Icon = a.icon;
-					return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
+					const content = /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-foreground",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { className: "h-5 w-5" })
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "min-w-0",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "text-sm font-semibold text-foreground",
+							children: a.label
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "text-xs text-muted-foreground",
+							children: "One tap to get going"
+						})]
+					})] });
+					if ("to" in a) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
 						to: a.to,
 						className: "card-soft-hover flex items-center gap-4 rounded-2xl bg-secondary/60 px-5 py-4 transition hover:bg-secondary",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-foreground",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { className: "h-5 w-5" })
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "min-w-0",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "text-sm font-semibold text-foreground",
-								children: a.label
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "text-xs text-muted-foreground",
-								children: "One tap to get going"
-							})]
-						})]
+						children: content
+					}, a.label);
+					else return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+						onClick: a.onClick,
+						className: "card-soft-hover flex items-center gap-4 rounded-2xl bg-secondary/60 px-5 py-4 transition hover:bg-secondary text-left w-full",
+						children: content
 					}, a.label);
 				})
 			}),
@@ -287,7 +336,77 @@ function Dashboard() {
 						}, g.id))
 					})]
 				})]
-			})] })
+			})] }),
+			isAddingUser && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4 backdrop-blur-sm transition-opacity duration-300",
+				onClick: () => setIsAddingUser(false),
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "w-full max-w-md overflow-hidden rounded-[32px] bg-background border border-primary/10 p-6 shadow-2xl md:p-8 animate-in fade-in-50 zoom-in-95 duration-200",
+					onClick: (e) => e.stopPropagation(),
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "mb-6 flex items-center justify-between",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+							className: "text-2xl font-extrabold text-foreground",
+							children: "Add New User"
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							onClick: () => setIsAddingUser(false),
+							className: "grid h-9 w-9 place-items-center rounded-xl bg-secondary text-foreground hover:bg-secondary/80 transition cursor-pointer",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-4 w-4" })
+						})]
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+						onSubmit: handleRegisterUser,
+						className: "flex flex-col gap-4",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+								className: "text-xs font-bold text-muted-foreground uppercase",
+								children: "Full Name"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								value: newUserName,
+								onChange: (e) => setNewUserName(e.target.value),
+								placeholder: "Enter full name",
+								className: "mt-1 h-11 rounded-xl",
+								required: true
+							})] }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+								className: "text-xs font-bold text-muted-foreground uppercase",
+								children: "Email Address"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								type: "email",
+								value: newUserEmail,
+								onChange: (e) => setNewUserEmail(e.target.value),
+								placeholder: "Enter email address",
+								className: "mt-1 h-11 rounded-xl",
+								required: true
+							})] }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
+								className: "text-xs font-bold text-muted-foreground uppercase",
+								children: "Phone Number"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
+								type: "text",
+								value: newUserPhone,
+								onChange: (e) => setNewUserPhone(e.target.value),
+								placeholder: "Enter phone number (optional)",
+								className: "mt-1 h-11 rounded-xl"
+							})] }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "mt-2 flex gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
+									type: "submit",
+									disabled: isRegistering,
+									className: "h-11 flex-1 rounded-xl font-bold",
+									children: [isRegistering ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { className: "h-4 w-4 animate-spin mr-1" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(UserPlus, { className: "h-4 w-4 mr-1" }), " Add User"]
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+									type: "button",
+									variant: "outline",
+									onClick: () => setIsAddingUser(false),
+									className: "h-11 rounded-xl px-5",
+									children: "Cancel"
+								})]
+							})
+						]
+					})]
+				})
+			})
 		]
 	});
 }

@@ -11,9 +11,12 @@ import {
   CheckCircle2,
   Clock,
   Loader2,
+  X,
 } from "lucide-react";
 import { summary as mockSummary, importReports, groups as mockGroups, members as mockMembers } from "@/lib/mock-data";
-import { fetchGroups, fetchExpenses } from "@/lib/api";
+import { fetchGroups, fetchExpenses, registerUser, fetchUsers } from "@/lib/api";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,23 +33,65 @@ export const Route = createFileRoute("/")({
 function Dashboard() {
   const [groupsList, setGroupsList] = useState<any[]>(mockGroups);
   const [expensesCount, setExpensesCount] = useState(mockSummary.totalExpenses);
+  const [usersCount, setUsersCount] = useState(mockMembers.length);
   const [loading, setLoading] = useState(true);
 
+  // User registration state
+  const [isAddingUser, setIsAddingUser] = useState(false);
+  const [newUserName, setNewUserName] = useState("");
+  const [newUserEmail, setNewUserEmail] = useState("");
+  const [newUserPhone, setNewUserPhone] = useState("");
+  const [isRegistering, setIsRegistering] = useState(false);
+
   useEffect(() => {
-    Promise.all([fetchGroups(), fetchExpenses()]).then(([grps, exps]) => {
+    Promise.all([fetchGroups(), fetchExpenses(), fetchUsers()]).then(([grps, exps, usrs]) => {
       if (grps) {
         setGroupsList(grps);
       }
       if (exps) {
         setExpensesCount(exps.length);
       }
+      if (usrs) {
+        setUsersCount(usrs.length);
+      }
       setLoading(false);
     });
   }, []);
 
+  const handleRegisterUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newUserName.trim() || !newUserEmail.trim()) return;
+
+    setIsRegistering(true);
+    try {
+      await registerUser({
+        name: newUserName,
+        email: newUserEmail,
+        phone: newUserPhone || undefined,
+        password: "DefaultPassword123",
+      });
+
+      setNewUserName("");
+      setNewUserEmail("");
+      setNewUserPhone("");
+      setIsAddingUser(false);
+      alert(`User "${newUserName}" successfully added!`);
+
+      const usrs = await fetchUsers();
+      if (usrs) {
+        setUsersCount(usrs.length);
+      }
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || "Failed to add user.");
+    } finally {
+      setIsRegistering(false);
+    }
+  };
+
   const totalGroups = groupsList.length;
   const totalExpenses = expensesCount;
-  const totalMembers = mockMembers.length;
+  const totalMembers = usersCount;
   const pendingReviews = mockSummary.pendingReviews;
 
   const metrics = [
@@ -59,6 +104,7 @@ function Dashboard() {
   const quickActions = [
     { label: "Create Group", icon: Users, to: "/groups" as const },
     { label: "Add Expense", icon: Plus, to: "/expenses" as const },
+    { label: "Add User", icon: UserPlus, onClick: () => setIsAddingUser(true) },
     { label: "Import CSV", icon: Upload, to: "/import-csv" as const },
   ];
 
@@ -97,11 +143,11 @@ function Dashboard() {
         </div>
       </section>
 
-      <section className="card-soft grid grid-cols-1 gap-2 p-3 sm:grid-cols-3">
+      <section className="card-soft grid grid-cols-1 gap-2 p-3 sm:grid-cols-2 md:grid-cols-4">
         {quickActions.map((a) => {
           const Icon = a.icon;
-          return (
-            <Link key={a.label} to={a.to} className="card-soft-hover flex items-center gap-4 rounded-2xl bg-secondary/60 px-5 py-4 transition hover:bg-secondary">
+          const content = (
+            <>
               <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-foreground">
                 <Icon className="h-5 w-5" />
               </div>
@@ -109,8 +155,22 @@ function Dashboard() {
                 <div className="text-sm font-semibold text-foreground">{a.label}</div>
                 <div className="text-xs text-muted-foreground">One tap to get going</div>
               </div>
-            </Link>
+            </>
           );
+
+          if ("to" in a) {
+            return (
+              <Link key={a.label} to={a.to} className="card-soft-hover flex items-center gap-4 rounded-2xl bg-secondary/60 px-5 py-4 transition hover:bg-secondary">
+                {content}
+              </Link>
+            );
+          } else {
+            return (
+              <button key={a.label} onClick={a.onClick} className="card-soft-hover flex items-center gap-4 rounded-2xl bg-secondary/60 px-5 py-4 transition hover:bg-secondary text-left w-full">
+                {content}
+              </button>
+            );
+          }
         })}
       </section>
 
@@ -189,6 +249,56 @@ function Dashboard() {
             </div>
           </section>
         </>
+      )}
+
+      {isAddingUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4 backdrop-blur-sm transition-opacity duration-300" onClick={() => setIsAddingUser(false)}>
+          <div className="w-full max-w-md overflow-hidden rounded-[32px] bg-background border border-primary/10 p-6 shadow-2xl md:p-8 animate-in fade-in-50 zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-2xl font-extrabold text-foreground">Add New User</h2>
+              <button onClick={() => setIsAddingUser(false)} className="grid h-9 w-9 place-items-center rounded-xl bg-secondary text-foreground hover:bg-secondary/80 transition cursor-pointer"><X className="h-4 w-4" /></button>
+            </div>
+            <form onSubmit={handleRegisterUser} className="flex flex-col gap-4">
+              <div>
+                <label className="text-xs font-bold text-muted-foreground uppercase">Full Name</label>
+                <Input
+                  value={newUserName}
+                  onChange={(e) => setNewUserName(e.target.value)}
+                  placeholder="Enter full name"
+                  className="mt-1 h-11 rounded-xl"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-muted-foreground uppercase">Email Address</label>
+                <Input
+                  type="email"
+                  value={newUserEmail}
+                  onChange={(e) => setNewUserEmail(e.target.value)}
+                  placeholder="Enter email address"
+                  className="mt-1 h-11 rounded-xl"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-muted-foreground uppercase">Phone Number</label>
+                <Input
+                  type="text"
+                  value={newUserPhone}
+                  onChange={(e) => setNewUserPhone(e.target.value)}
+                  placeholder="Enter phone number (optional)"
+                  className="mt-1 h-11 rounded-xl"
+                />
+              </div>
+              <div className="mt-2 flex gap-3">
+                <Button type="submit" disabled={isRegistering} className="h-11 flex-1 rounded-xl font-bold">
+                  {isRegistering ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : <UserPlus className="h-4 w-4 mr-1" />} Add User
+                </Button>
+                <Button type="button" variant="outline" onClick={() => setIsAddingUser(false)} className="h-11 rounded-xl px-5">Cancel</Button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );

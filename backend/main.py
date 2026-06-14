@@ -12,6 +12,7 @@ from app.routes.expenses import router as expense_router
 from app.routes.imports import router as import_router
 from app.routes.balances import router as balance_router
 from app.routes.settlements import router as settlement_router
+from app.routes.memberships import router as membership_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -33,6 +34,7 @@ app.include_router(expense_router)
 app.include_router(import_router)
 app.include_router(balance_router)
 app.include_router(settlement_router)
+app.include_router(membership_router)
 
 
 @app.get("/")

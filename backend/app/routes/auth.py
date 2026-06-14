@@ -8,7 +8,7 @@ from app.database import get_db
 
 from app.models.user import User
 
-from app.schemas.user import UserCreate
+from app.schemas.user import UserCreate, UserResponse
 
 from app.core.security import hash_password
 
@@ -36,10 +36,12 @@ def register(
     new_user = User(
         name=user.name,
         email=user.email,
+        phone=user.phone,
         password_hash=hash_password(
             user.password
         )
     )
+
 
     db.add(new_user)
     db.commit()
@@ -49,3 +51,8 @@ def register(
         "message": "User created successfully",
         "id": new_user.id
     }
+
+
+@router.get("/users", response_model=list[UserResponse])
+def get_users(db: Session = Depends(get_db)):
+    return db.query(User).all()

@@ -17,6 +17,8 @@ class User(Base):
         nullable=False
     )
 
+    phone = Column(String, nullable=True)
+
     password_hash = Column(
         String,
         nullable=False
