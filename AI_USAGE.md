@@ -1,6 +1,6 @@
 # AI Usage Log
 
-This document summarizes the role of Artificial Intelligence (AI) assistants in the development, testing, and deployment of the Shared Expenses Management Platform.
+This document summarizes the role of Artificial Intelligence (AI) assistants—specifically Gemini, GitHub Copilot, and ChatGPT—in the development, testing, deployment, and documentation of the Shared Expenses Management Platform.
 
 ---
 
@@ -9,6 +9,7 @@ This document summarizes the role of Artificial Intelligence (AI) assistants in 
 ### Tools Used
 - **Gemini**: Used for database model design, writing the greedy simplification algorithm, creating mock dataset generators, and diagnosing CORS network errors.
 - **GitHub Copilot**: Used for inline code autocompletion, boilerplate routing handlers in FastAPI, and styling configurations in React components.
+- **ChatGPT**: Used as a technical mentor and implementation guide throughout the project lifecycle.
 
 ### Development Workflow
 AI was integrated throughout the software development life cycle (SDLC) as a pair programmer:
@@ -19,135 +20,72 @@ AI was integrated throughout the software development life cycle (SDLC) as a pai
 
 ---
 
-## 2. Example Prompts
+# ChatGPT-Assisted Development Process
 
-### Database Schema Design
-```text
-Write SQLAlchemy declarative models for a shared expenses platform. I need users, groups, memberships (which tracks when they joined or left), expenses (which has a split type and currency), and settlements. Add appropriate foreign key constraints with cascade delete options.
-```
+ChatGPT served as a technical mentor and implementation guide throughout the project lifecycle. It provided step-by-step guidance for project architecture, backend development, API design, database modeling, deployment, debugging, documentation, and submission preparation.
 
-### Debt Minimization Logic
-```javascript
-Create a JavaScript function to solve the debt minimization problem. Given a list of expenses and settlements inside a group, compute the net balance for each member. Then, output a list of optimized settlement transactions (who should pay whom how much) using a greedy heap approach.
-```
+Furthermore, ChatGPT helped break down the assignment requirements into an executable development plan. It was used to understand FastAPI, SQLAlchemy, PostgreSQL, Render deployment, Vercel deployment, CSV anomaly detection, balance calculation logic, and documentation requirements. ChatGPT was also instrumental in troubleshooting errors encountered during development and reviewing implementation decisions to identify missing deliverables before final submission.
 
----
+## Representative ChatGPT Prompts
 
-## 3. Case Studies: Errors, Identification, and Corrections
+Below are representative prompts used during development:
+- *Help me design the backend architecture for a shared expense management platform.*
+- *Guide me step by step to implement CSV anomaly detection using FastAPI and pandas.*
+- *Explain how to deploy a FastAPI application on Render.*
+- *Review my project against the assignment deliverables and identify gaps.*
+- *Generate documentation structure for README.md, SCOPE.md, DECISIONS.md, and AI_USAGE.md.*
 
-Below are five specific scenarios where AI produced incorrect or incomplete output, how they were identified, and how they were corrected.
+## ChatGPT Contributions
 
-### Case 1: Backend Wildcard CORS Configuration
-* **AI Output**: The AI generated a default CORS middleware configuration using wildcard origins while enabling credentials:
-  ```python
-  app.add_middleware(
-      CORSMiddleware,
-      allow_origins=["*"],
-      allow_credentials=True,
-      allow_methods=["*"],
-      allow_headers=["*"],
-  )
-  ```
-* **How Identified**: During frontend deployment testing on Vercel, attempts to post new expenses to the FastAPI backend failed. The browser console logged the following network error:
-  `Access to fetch at 'https://shared-expense-api.onrender.com/expenses' from origin 'https://mysplit-cyan.vercel.app' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.`
-* **How Corrected**: The origin array was explicitly modified to whitelist only the specific frontend URL and localhost for development:
-  ```python
-  app.add_middleware(
-      CORSMiddleware,
-      allow_origins=[
-          "https://mysplit-cyan.vercel.app",
-          "http://localhost:8888",
-          "http://localhost:8081",
-      ],
-      allow_credentials=True,
-      allow_methods=["*"],
-      allow_headers=["*"],
-  )
-  ```
+ChatGPT contributed significantly to the following phases:
+- **Project planning**: Breaking down requirements into modular milestones and tasks.
+- **API design**: Establishing clean REST endpoints and query parameter scopes.
+- **Database schema design**: Defining relational mappings, indices, and foreign keys.
+- **Error debugging**: Resolving dependency version collisions and environment configuration mismatches.
+- **Deployment assistance**: Designing Render Web Service settings and Vercel build configs.
+- **Documentation generation**: Drafting template structures and outlining decision matrix logs.
+- **Submission readiness review**: Verifying that every business rule and anomaly check was fully addressed in code.
 
 ---
 
-### Case 2: Missing Group Scoping in Settlements Table
-* **AI Output**: The AI initially designed the `Settlement` table without referencing a group ID, assuming that repayments were global:
+## Examples of Incorrect AI Output and Corrections
+
+During development, AI models (Gemini, Copilot, and ChatGPT) occasionally produced incorrect or incomplete outputs. Below are detailed examples of these errors, how they were identified, and how they were corrected.
+
+### Example 1: Bcrypt and Passlib Compatibility Issue
+- **AI Suggestion**: ChatGPT suggested using `passlib` with the `bcrypt` handler for secure password hashing.
+- **How Identified**: During user registration tests, the application threw runtime hashing errors: `TypeError: bcrypt() got an unexpected keyword argument 'rounds'`. This was caused by an incompatibility between the latest version of the `bcrypt` package and `passlib`.
+- **Correction**: Pinned `bcrypt` to version `4.0.1` in `requirements.txt` to restore compatibility with `passlib`, resolving the runtime hashing error and allowing registration to proceed.
+
+### Example 2: CSV Anomaly Detection Type Mismatch (String vs. Numeric)
+- **AI Suggestion**: ChatGPT generated anomaly detection logic that compared string values in the amount column with numeric values directly:
   ```python
-  class Settlement(Base):
-      __tablename__ = "settlements"
-      id = Column(Integer, primary_key=True)
-      payer_id = Column(Integer, ForeignKey("users.id"))
-      receiver_id = Column(Integer, ForeignKey("users.id"))
-      amount = Column(Float)
-      settlement_date = Column(Date)
+  if row['amount'] < 0:
+      # flag negative amount
   ```
-* **How Identified**: During functional testing, settling a debt of $50 between User A and User B in Group 1 dynamically reduced User A's debt in Group 2 as well. The system failed to isolate outstanding debts to specific groups.
-* **How Corrected**: A database migration script `add_group_id_to_settlements.py` was written to inject the `group_id` foreign key. The backend routing logic was updated to validate that settlements only occur between members sharing active group memberships.
-  ```python
-  group_id = Column(Integer, ForeignKey("groups.id"), nullable=False)
-  ```
+- **How Identified**: The CSV import endpoint raised a `TypeError: '<' not supported between instances of 'str' and 'int'` during processing because pandas loaded the CSV column as strings.
+- **Correction**: Converted the amount column explicitly using `pandas.to_numeric(df["amount"], errors="coerce")` before performing validation checks.
+
+### Example 3: Hardcoded Localhost API URLs in Frontend
+- **AI Suggestion**: ChatGPT initially suggested using hardcoded localhost API URLs (`http://localhost:8000/api/...`) for frontend Axios calls.
+- **How Identified**: After deploying the frontend to Vercel, it was unable to communicate with the deployed backend on Render, returning network connection errors.
+- **Correction**: Replaced hardcoded localhost strings with environment variables (`import.meta.env.VITE_API_URL`) and configured API base URLs dynamically for development and production deployments.
+
+### Example 4: Backend Wildcard CORS Configuration
+- **AI Suggestion**: Gemini generated a default CORS middleware configuration using wildcard origins (`allow_origins=["*"]`) while setting `allow_credentials=True`.
+- **How Identified**: Frontend API posts to the backend on Render failed in the browser due to browser security blocks: `Access-Control-Allow-Origin cannot be wildcard when credentials mode is include`.
+- **Correction**: Configured the CORS middleware in `main.py` with explicit allowed origins `["https://mysplit-cyan.vercel.app", "http://localhost:8081"]`.
+
+### Example 5: Missing Group Scoping in Settlements Table
+- **AI Suggestion**: Gemini initially designed the `Settlement` table without referencing a group ID, assuming that repayments were global.
+- **How Identified**: Settling a debt in one group affected user balances globally across other unrelated groups.
+- **Correction**: Updated the schema by injecting `group_id` into the `Settlement` database model and updated the corresponding routes to query settlements filtered by group.
 
 ---
 
-### Case 3: Infinite Re-rendering Loop in React Balances View
-* **AI Output**: The AI suggested using a React `useEffect` hook to calculate net group balances and update component state on rendering. However, it incorrectly included the state setters themselves as dependencies:
-  ```javascript
-  useEffect(() => {
-      const computedBalances = calculateBalances(expenses, settlements);
-      setBalances(computedBalances);
-  }, [expenses, settlements, balances]); // 'balances' dependency triggered infinite loops
-  ```
-* **How Identified**: Opening the Balances tab caused the web browser to crash, returning a maximum call stack size exceeded error due to recurrent render cycles.
-* **How Corrected**: The calculation logic was refactored to run as a computed value during render time via `useMemo`, eliminating the state synchronization hook entirely:
-  ```javascript
-  const balances = useMemo(() => {
-      return calculateBalances(expenses, settlements);
-  }, [expenses, settlements]);
-  ```
+## Lessons Learned From AI-Assisted Development
 
----
-
-### Case 4: Faulty Member Removal Handler
-* **AI Output**: The AI generated a membership deletion router that fetched and deleted records based solely on the `user_id`:
-  ```python
-  @router.delete("/memberships/{user_id}")
-  def remove_member(user_id: int, db: Session = Depends(get_db)):
-      db.query(Membership).filter(Membership.user_id == user_id).delete()
-      db.commit()
-  ```
-* **How Identified**: Removing a user from a single group automatically kicked them out of every other group they belonged to, destroying historical membership logs.
-* **How Corrected**: Refactored the endpoint signature to accept both `group_id` and `user_id`, ensuring deletions are isolated to the targeted membership relation:
-  ```python
-  @router.delete("/memberships/group/{group_id}/user/{user_id}")
-  def remove_group_member(group_id: int, user_id: int, db: Session = Depends(get_db)):
-      record = db.query(Membership).filter(
-          Membership.group_id == group_id,
-          Membership.user_id == user_id
-      ).first()
-      if not record:
-          raise HTTPException(status_code=404, detail="Membership not found")
-      db.delete(record)
-      db.commit()
-  ```
-
----
-
-### Case 5: CSV Date Comparison Type Mismatch
-* **AI Output**: In the CSV import anomaly detection module, the AI suggested comparing CSV date columns directly against member joined/left dates:
-  ```python
-  if row['date'] < member.joined_at or row['date'] > member.left_at:
-      # flag membership conflict anomaly
-  ```
-* **How Identified**: No membership conflict anomalies were logged even when transactions occurred before a user joined the group. This was because `row['date']` was a string (e.g. `"2024-06-12"`), while `member.joined_at` was a Python `datetime.date` object.
-* **How Corrected**: Vectorized date parsing was applied using Pandas to convert string columns to datetime dates before running validation loops:
-  ```python
-  df['parsed_date'] = pd.to_datetime(df['date']).dt.date
-  # Later during row execution:
-  if parsed_date < member.joined_at or (member.left_at and parsed_date > member.left_at):
-  ```
-
----
-
-## 4. Lessons Learned
-
-1. **Verify Sandbox Code**: AI code models excel at localized logic but lack systemic context. Always double-check database schema references, key definitions, and datatype alignments.
-2. **Explicit Security Policies**: AI heavily biases toward wildcards (`*`) for quick API setups (CORS, DB bindings, authentication tokens). Developers must enforce robust whitelist arrays manually for production environments.
-3. **React Hooks Discipline**: Keep states simple. Using `useEffect` to synchronize states derived from other states is an anti-pattern. Instead, leverage dynamic render computations (`useMemo`).
-4. **Unit Validation on Vector Services**: Data science libraries like Pandas automate data processing but require strict type matching at boundaries when interacting with databases.
+1. **Importance of Validating AI-Generated Code**: AI models are powerful accelerators but can introduce subtle syntax errors, type mismatches, and deprecated library usage (like the `passlib`/`bcrypt` collision). Thorough unit and manual testing are essential to catch these issues early.
+2. **Importance of Testing Deployment Environments Separately**: Code that functions perfectly in a local sandbox can fail in cloud production environments due to CORS policies, database network permissions, environment variables, or platform-specific runtime constraints (e.g. Render vs. Vercel).
+3. **Importance of Reviewing Business Logic Manually**: AI cannot verify that business logic constraints are mathematically sound or meet assignment rules (such as ensuring group-scoped settlements or preventing automatic deletion of anomalies). Developers must act as critical auditors of logic paths.
+4. **AI Accelerates Development but Does Not Replace Engineering Judgment**: While AI can draft boilerplate code and suggest architectural patterns, human oversight is required to design cohesive, robust, and secure systems that align precisely with technical constraints and product objectives.
