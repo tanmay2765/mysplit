@@ -6,7 +6,7 @@ import { n as cn, t as Button } from "./button-BpE9Czok.mjs";
 import { t as Input } from "./input-NvmijQlt.mjs";
 import { _ as useRouter, c as HeadContent, d as createRouter, f as Outlet, g as Link, h as createRootRouteWithContext, l as useRouterState, m as createFileRoute, p as lazyRouteComponent, s as Scripts } from "../_libs/@tanstack/react-router+[...].mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-TKIvRAow.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-Ci42Pkjj.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var styles_default = "/assets/styles-BFlEBS8t.css";
@@ -355,7 +355,7 @@ var Route$4 = createFileRoute("/import-csv")({
 	}] }),
 	component: lazyRouteComponent($$splitComponentImporter$4, "component")
 });
-var $$splitComponentImporter$3 = () => import("./groups-DSmlSff9.mjs");
+var $$splitComponentImporter$3 = () => import("./groups-DXZGuq8b.mjs");
 var Route$3 = createFileRoute("/groups")({
 	head: () => ({ meta: [{ title: "Groups — SplitWell" }, {
 		name: "description",

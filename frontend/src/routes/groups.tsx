@@ -170,7 +170,7 @@ function GroupsPage() {
     if (!selected) return;
     const groupIdInt = parseInt(selected.id.replace(/[^\d]/g, ""));
     const userIdInt = parseInt(userIdStr.replace(/[^\d]/g, ""));
-    if (isNaN(groupIdInt) || isNaN(userIdInt)) {
+    if (isNaN(groupIdInt) || isNaN(userIdInt) || groupIdInt <= 2) {
       // Fallback for mock data
       setSelected((prev) => {
         if (!prev) return null;
@@ -179,6 +179,7 @@ function GroupsPage() {
           members: prev.members.filter((mem) => mem.id !== userIdStr),
         };
       });
+      alert("Member removed successfully!");
       return;
     }
     
@@ -186,8 +187,10 @@ function GroupsPage() {
 
     try {
       await deleteMembership(userIdInt, groupIdInt);
-    } catch (err) {
-      console.warn("Membership removal failed/not found in database, updating UI state locally:", err);
+      alert("Member removed successfully!");
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message || "Failed to remove member");
     }
     
     // Always reload groups to refresh UI lists

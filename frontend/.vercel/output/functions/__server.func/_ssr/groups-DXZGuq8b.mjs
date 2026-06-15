@@ -6,7 +6,7 @@ import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.m
 import { E as Check, d as Receipt, f as Plus, h as LoaderCircle, n as Users, r as UserPlus, t as X, w as Clock } from "../_libs/lucide-react.mjs";
 import { t as Button } from "./button-BpE9Czok.mjs";
 import { t as Input } from "./input-NvmijQlt.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/groups-DSmlSff9.js
+//#region node_modules/.nitro/vite/services/ssr/assets/groups-DXZGuq8b.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function GroupsPage() {
@@ -129,7 +129,7 @@ function GroupsPage() {
 		if (!selected) return;
 		const groupIdInt = parseInt(selected.id.replace(/[^\d]/g, ""));
 		const userIdInt = parseInt(userIdStr.replace(/[^\d]/g, ""));
-		if (isNaN(groupIdInt) || isNaN(userIdInt)) {
+		if (isNaN(groupIdInt) || isNaN(userIdInt) || groupIdInt <= 2) {
 			setSelected((prev) => {
 				if (!prev) return null;
 				return {
@@ -137,13 +137,16 @@ function GroupsPage() {
 					members: prev.members.filter((mem) => mem.id !== userIdStr)
 				};
 			});
+			alert("Member removed successfully!");
 			return;
 		}
 		if (!confirm("Are you sure you want to remove this member from the group?")) return;
 		try {
 			await deleteMembership(userIdInt, groupIdInt);
+			alert("Member removed successfully!");
 		} catch (err) {
-			console.warn("Membership removal failed/not found in database, updating UI state locally:", err);
+			console.error(err);
+			alert(err.message || "Failed to remove member");
 		}
 		try {
 			const updatedGroups = await fetchGroups();

@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-CO5Np_AP.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-Bn9ncwKN.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/__root.tsx",
@@ -11,18 +11,18 @@ var tsrStartManifest = () => ({ routes: {
 			"/import-reports",
 			"/settlements"
 		],
-		preloads: ["/assets/index-5d3U5Q6x.js", "/assets/createLucideIcon-B4jqqaQH.js"],
+		preloads: ["/assets/index-1rbqNdOX.js", "/assets/createLucideIcon-B4jqqaQH.js"],
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-5d3U5Q6x.js"
+			src: "/assets/index-1rbqNdOX.js"
 		} }]
 	},
 	"/": {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/routes-SnJXJarV.js",
+			"/assets/routes-BifhtcHm.js",
 			"/assets/triangle-alert-ClKRVLSO.js",
 			"/assets/user-plus-CxkVjsN7.js",
 			"/assets/api-CN65D_1u.js",
@@ -43,7 +43,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/expenses.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/expenses-DpWz9-Z1.js",
+			"/assets/expenses-D6Gy95FK.js",
 			"/assets/api-CN65D_1u.js",
 			"/assets/x-CjPMIupY.js",
 			"/assets/mock-data-uw9tCfO6.js"
@@ -53,7 +53,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/groups.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/groups-BQPNhFIY.js",
+			"/assets/groups-DPeBMgvJ.js",
 			"/assets/check-CLYb6C-z.js",
 			"/assets/user-plus-CxkVjsN7.js",
 			"/assets/api-CN65D_1u.js",
@@ -65,7 +65,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/import-csv.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/import-csv-DtzfrX6D.js",
+			"/assets/import-csv-CPSuHQ6Y.js",
 			"/assets/check-CLYb6C-z.js",
 			"/assets/triangle-alert-ClKRVLSO.js",
 			"/assets/api-CN65D_1u.js"
@@ -75,7 +75,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/import-reports.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/import-reports-BiB4fp9E.js",
+			"/assets/import-reports-CokCBOJO.js",
 			"/assets/check-CLYb6C-z.js",
 			"/assets/triangle-alert-ClKRVLSO.js",
 			"/assets/x-CjPMIupY.js",
@@ -86,7 +86,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/settlements.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/settlements-NzpPBK40.js",
+			"/assets/settlements-B0C7sAqt.js",
 			"/assets/api-CN65D_1u.js",
 			"/assets/mock-data-uw9tCfO6.js"
 		]
