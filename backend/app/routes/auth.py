@@ -7,6 +7,8 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 
 from app.models.user import User
+from app.models.membership import Membership
+from app.models.expense import Expense
 
 from app.schemas.user import UserCreate, UserResponse
 
@@ -56,3 +58,22 @@ def register(
 @router.get("/users", response_model=list[UserResponse])
 def get_users(db: Session = Depends(get_db)):
     return db.query(User).all()
+
+
+@router.delete("/users/{user_id}")
+def delete_user(
+    user_id: int,
+    db: Session = Depends(get_db)
+):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Clean up associated memberships & expenses paid by this user
+    db.query(Membership).filter(Membership.user_id == user_id).delete()
+    db.query(Expense).filter(Expense.paid_by == user_id).delete()
+
+    db.delete(user)
+    db.commit()
+
+    return {"message": "User deleted successfully"}

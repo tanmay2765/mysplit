@@ -1,12 +1,12 @@
 import { r as __toESM } from "../_runtime.mjs";
-import { a as groups } from "./mock-data-DnTK_NLz.mjs";
-import { a as deleteMembership, c as fetchGroups, d as registerUser, n as createGroup, r as createMembership, u as fetchUsers } from "./api-CzVMe15H.mjs";
+import { r as groups } from "./mock-data-C4Y8N_Dm.mjs";
+import { f as fetchUsers, n as createGroup, o as deleteGroup, p as registerUser, r as createMembership, s as deleteMembership, u as fetchGroups } from "./api-Dv7xPgHm.mjs";
 import { n as require_react } from "../_libs/@radix-ui/react-compose-refs+[...].mjs";
 import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
-import { E as Check, d as Receipt, f as Plus, h as LoaderCircle, n as Users, r as UserPlus, t as X, w as Clock } from "../_libs/lucide-react.mjs";
+import { E as Clock, O as Check, _ as LoaderCircle, c as Trash2, d as Receipt, f as Plus, n as Users, r as UserPlus, t as X } from "../_libs/lucide-react.mjs";
 import { t as Button } from "./button-BpE9Czok.mjs";
 import { t as Input } from "./input-NvmijQlt.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/groups-DXZGuq8b.js
+//#region node_modules/.nitro/vite/services/ssr/assets/groups-Du3Bb6dl.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function GroupsPage() {
@@ -158,6 +158,25 @@ function GroupsPage() {
 			}
 		} catch (e) {
 			console.error("Failed to refresh groups", e);
+		}
+	};
+	const handleDeleteGroup = async (groupIdStr) => {
+		const groupIdInt = parseInt(groupIdStr.replace(/[^\d]/g, ""));
+		if (isNaN(groupIdInt) || groupIdInt <= 2) {
+			setGroupsList((prev) => prev.filter((g) => g.id !== groupIdStr));
+			setSelected(null);
+			alert("Mock group deleted successfully!");
+			return;
+		}
+		if (!confirm("Are you sure you want to delete this group? All memberships and expenses inside this group will be permanently deleted.")) return;
+		try {
+			await deleteGroup(groupIdInt);
+			alert("Group deleted successfully!");
+			setSelected(null);
+			loadGroupsAndUsers();
+		} catch (err) {
+			console.error(err);
+			alert(err.message || "Failed to delete group");
 		}
 	};
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -378,13 +397,20 @@ function GroupsPage() {
 					onClick: (e) => e.stopPropagation(),
 					children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "mb-6 flex items-center justify-between",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-								className: "text-2xl font-extrabold",
-								children: selected.name
+							className: "mb-6 flex items-start justify-between gap-3",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "min-w-0 flex-1",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+									className: "text-2xl font-extrabold truncate",
+									children: selected.name
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+									onClick: () => handleDeleteGroup(selected.id),
+									className: "mt-1 flex items-center gap-1 text-xs font-semibold text-destructive hover:underline cursor-pointer",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { className: "h-3.5 w-3.5" }), " Delete Group"]
+								})]
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 								onClick: () => setSelected(null),
-								className: "grid h-9 w-9 place-items-center rounded-xl bg-secondary",
+								className: "grid h-9 w-9 place-items-center rounded-xl bg-secondary shrink-0 cursor-pointer",
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-4 w-4" })
 							})]
 						}),

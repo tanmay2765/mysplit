@@ -154,8 +154,10 @@ export async function fetchExpenses() {
         amount: e.amount,
         currency: e.currency || "INR",
         paidBy: resolveMember(e.paid_by).name,
+        paidById: e.paid_by,
         splitType: e.split_type ? (e.split_type.charAt(0).toUpperCase() + e.split_type.slice(1)) : "Equal",
         groupId: `g${e.group_id}`,
+        groupIdRaw: e.group_id,
       }));
     }
   } catch (e) {
@@ -225,8 +227,12 @@ export async function fetchSettlements() {
         id: `s${s.id}`,
         date: s.settlement_date || new Date().toISOString().split("T")[0],
         payer: resolveMember(s.payer_id).name,
+        payerId: s.payer_id,
         receiver: resolveMember(s.receiver_id).name,
+        receiverId: s.receiver_id,
         amount: s.amount,
+        groupId: `g${s.group_id}`,
+        groupIdRaw: s.group_id,
       }));
     }
   } catch (e) {
@@ -251,6 +257,38 @@ export async function deleteMembership(userId: number, groupId: number) {
     method: "DELETE",
   });
   if (!res.ok) throw new Error("Failed to delete membership");
+  return res.json();
+}
+
+export async function deleteGroup(groupId: number) {
+  const res = await fetch(`${API_BASE_URL}/groups/${groupId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("Failed to delete group");
+  return res.json();
+}
+
+export async function deleteUser(userId: number) {
+  const res = await fetch(`${API_BASE_URL}/auth/users/${userId}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("Failed to delete user");
+  return res.json();
+}
+
+export async function createSettlement(settlement: {
+  payer_id: number;
+  receiver_id: number;
+  group_id: number;
+  amount: number;
+  settlement_date: string;
+}) {
+  const res = await fetch(`${API_BASE_URL}/settlements/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(settlement),
+  });
+  if (!res.ok) throw new Error("Failed to record settlement");
   return res.json();
 }
 

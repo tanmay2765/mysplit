@@ -408,6 +408,23 @@ var LoaderCircle = createLucideIcon("loader-circle", [["path", {
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var Mail = createLucideIcon("mail", [["path", {
+	d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7",
+	key: "132q7q"
+}], ["rect", {
+	x: "2",
+	y: "4",
+	width: "20",
+	height: "16",
+	rx: "2",
+	key: "izxlao"
+}]]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var Menu = createLucideIcon("menu", [
 	["path", {
 		d: "M4 5h16",
@@ -434,6 +451,16 @@ var Pencil = createLucideIcon("pencil", [["path", {
 }], ["path", {
 	d: "m15 5 4 4",
 	key: "1mk7zo"
+}]]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
+var Phone = createLucideIcon("phone", [["path", {
+	d: "M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384",
+	key: "9njp5v"
 }]]);
 /**
 * @license lucide-react v0.575.0 - ISC
@@ -677,4 +704,4 @@ var X = createLucideIcon("x", [["path", {
 	key: "d8bk6v"
 }]]);
 //#endregion
-export { CloudUpload as C, Bell as D, Check as E, ArrowUpRight as O, Download as S, CircleCheck as T, HandCoins as _, TriangleAlert as a, FileSearch as b, Trash2 as c, Receipt as d, Plus as f, LayoutDashboard as g, LoaderCircle as h, Upload as i, ArrowRight as k, Search as l, Menu as m, Users as n, TrendingUp as o, Pencil as p, UserPlus as r, TrendingDown as s, X as t, Scale as u, Funnel as v, Clock as w, FileChartColumnIncreasing as x, FileText as y };
+export { ArrowUpRight as A, FileChartColumnIncreasing as C, CircleCheck as D, Clock as E, Check as O, FileSearch as S, CloudUpload as T, LoaderCircle as _, TriangleAlert as a, Funnel as b, Trash2 as c, Receipt as d, Plus as f, Mail as g, Menu as h, Upload as i, ArrowRight as j, Bell as k, Search as l, Pencil as m, Users as n, TrendingUp as o, Phone as p, UserPlus as r, TrendingDown as s, X as t, Scale as u, LayoutDashboard as v, Download as w, FileText as x, HandCoins as y };

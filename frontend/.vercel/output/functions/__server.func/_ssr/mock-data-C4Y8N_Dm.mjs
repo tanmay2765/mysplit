@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/mock-data-DnTK_NLz.js
+//#region node_modules/.nitro/vite/services/ssr/assets/mock-data-C4Y8N_Dm.js
 var av = (seed) => `https://images.unsplash.com/photo-${seed}?w=128&h=128&fit=crop&crop=faces`;
 var members = [
 	{
@@ -144,72 +144,7 @@ var expenses = [
 		groupId: "g4"
 	}
 ];
-var balances = [
-	{
-		memberId: "m1",
-		name: "Aisha",
-		avatar: members[0].avatar,
-		amount: 2400
-	},
-	{
-		memberId: "m2",
-		name: "Rohan",
-		avatar: members[1].avatar,
-		amount: -1200
-	},
-	{
-		memberId: "m3",
-		name: "Priya",
-		avatar: members[2].avatar,
-		amount: -800
-	},
-	{
-		memberId: "m5",
-		name: "Meera",
-		avatar: members[4].avatar,
-		amount: -400
-	}
-];
-var simplifiedSettlements = [
-	{
-		from: "Rohan",
-		to: "Aisha",
-		amount: 1200
-	},
-	{
-		from: "Priya",
-		to: "Aisha",
-		amount: 800
-	},
-	{
-		from: "Meera",
-		to: "Aisha",
-		amount: 400
-	}
-];
-var settlementHistory = [
-	{
-		id: "s1",
-		date: "2024-06-09",
-		payer: "Rohan",
-		receiver: "Aisha",
-		amount: 800
-	},
-	{
-		id: "s2",
-		date: "2024-06-04",
-		payer: "Sam",
-		receiver: "Meera",
-		amount: 350
-	},
-	{
-		id: "s3",
-		date: "2024-05-28",
-		payer: "Priya",
-		receiver: "Aisha",
-		amount: 1500
-	}
-];
+members[0].avatar, members[1].avatar, members[2].avatar, members[4].avatar;
 var anomalies = [
 	{
 		id: "a1",
@@ -300,26 +235,6 @@ var importReports = [
 		status: "Completed"
 	}
 ];
-var balanceExplanation = [
-	{
-		expense: "Beach Resort Stay",
-		amount: 18e3,
-		share: 4500,
-		reason: "Equal split among 4 members"
-	},
-	{
-		expense: "Scuba Diving",
-		amount: 9600,
-		share: 2400,
-		reason: "Equal split among 4 members"
-	},
-	{
-		expense: "Dinner at Thalassa",
-		amount: 4800,
-		share: 1200,
-		reason: "Equal split among 4 members"
-	}
-];
 var summary = {
 	totalGroups: groups.length,
 	totalExpenses: expenses.length,
@@ -327,4 +242,4 @@ var summary = {
 	pendingReviews: anomalies.filter((a) => a.status === "Pending").length
 };
 //#endregion
-export { groups as a, settlementHistory as c, expenses as i, simplifiedSettlements as l, balanceExplanation as n, importReports as o, balances as r, members as s, anomalies as t, summary as u };
+export { members as a, importReports as i, expenses as n, summary as o, groups as r, anomalies as t };

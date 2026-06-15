@@ -13,6 +13,7 @@ import { Route as SettlementsRouteImport } from './routes/settlements'
 import { Route as ImportReportsRouteImport } from './routes/import-reports'
 import { Route as ImportCsvRouteImport } from './routes/import-csv'
 import { Route as GroupsRouteImport } from './routes/groups'
+import { Route as FriendsRouteImport } from './routes/friends'
 import { Route as ExpensesRouteImport } from './routes/expenses'
 import { Route as BalancesRouteImport } from './routes/balances'
 import { Route as IndexRouteImport } from './routes/index'
@@ -37,6 +38,11 @@ const GroupsRoute = GroupsRouteImport.update({
   path: '/groups',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FriendsRoute = FriendsRouteImport.update({
+  id: '/friends',
+  path: '/friends',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExpensesRoute = ExpensesRouteImport.update({
   id: '/expenses',
   path: '/expenses',
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/balances': typeof BalancesRoute
   '/expenses': typeof ExpensesRoute
+  '/friends': typeof FriendsRoute
   '/groups': typeof GroupsRoute
   '/import-csv': typeof ImportCsvRoute
   '/import-reports': typeof ImportReportsRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/balances': typeof BalancesRoute
   '/expenses': typeof ExpensesRoute
+  '/friends': typeof FriendsRoute
   '/groups': typeof GroupsRoute
   '/import-csv': typeof ImportCsvRoute
   '/import-reports': typeof ImportReportsRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/balances': typeof BalancesRoute
   '/expenses': typeof ExpensesRoute
+  '/friends': typeof FriendsRoute
   '/groups': typeof GroupsRoute
   '/import-csv': typeof ImportCsvRoute
   '/import-reports': typeof ImportReportsRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/balances'
     | '/expenses'
+    | '/friends'
     | '/groups'
     | '/import-csv'
     | '/import-reports'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/balances'
     | '/expenses'
+    | '/friends'
     | '/groups'
     | '/import-csv'
     | '/import-reports'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/balances'
     | '/expenses'
+    | '/friends'
     | '/groups'
     | '/import-csv'
     | '/import-reports'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BalancesRoute: typeof BalancesRoute
   ExpensesRoute: typeof ExpensesRoute
+  FriendsRoute: typeof FriendsRoute
   GroupsRoute: typeof GroupsRoute
   ImportCsvRoute: typeof ImportCsvRoute
   ImportReportsRoute: typeof ImportReportsRoute
@@ -151,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GroupsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/friends': {
+      id: '/friends'
+      path: '/friends'
+      fullPath: '/friends'
+      preLoaderRoute: typeof FriendsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/expenses': {
       id: '/expenses'
       path: '/expenses'
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BalancesRoute: BalancesRoute,
   ExpensesRoute: ExpensesRoute,
+  FriendsRoute: FriendsRoute,
   GroupsRoute: GroupsRoute,
   ImportCsvRoute: ImportCsvRoute,
   ImportReportsRoute: ImportReportsRoute,

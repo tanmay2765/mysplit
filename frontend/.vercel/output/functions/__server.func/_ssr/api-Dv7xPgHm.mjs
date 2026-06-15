@@ -1,5 +1,5 @@
-import { s as members } from "./mock-data-DnTK_NLz.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/api-CzVMe15H.js
+import { a as members } from "./mock-data-C4Y8N_Dm.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/api-Dv7xPgHm.js
 var API_BASE_URL = "https://shared-expense-api.onrender.com";
 var membersMap = {
 	"1": {
@@ -156,8 +156,10 @@ async function fetchExpenses() {
 			amount: e.amount,
 			currency: e.currency || "INR",
 			paidBy: resolveMember(e.paid_by).name,
+			paidById: e.paid_by,
 			splitType: e.split_type ? e.split_type.charAt(0).toUpperCase() + e.split_type.slice(1) : "Equal",
-			groupId: `g${e.group_id}`
+			groupId: `g${e.group_id}`,
+			groupIdRaw: e.group_id
 		}));
 	} catch (e) {
 		console.error("API Error, using fallback:", e);
@@ -178,26 +180,6 @@ async function deleteExpense(expenseId) {
 	if (!res.ok) throw new Error("Failed to delete expense");
 	return res.json();
 }
-async function fetchBalances() {
-	try {
-		await fetchUsers();
-		const res = await fetch(`${API_BASE_URL}/balances/`);
-		if (!res.ok) throw new Error("Failed to fetch balances");
-		const data = await res.json();
-		if (data && Object.keys(data).length > 0) return Object.entries(data).map(([userId, amount]) => {
-			const member = resolveMember(userId);
-			return {
-				memberId: `m${userId}`,
-				name: member.name,
-				avatar: member.avatar,
-				amount: parseFloat(amount)
-			};
-		});
-	} catch (e) {
-		console.error("API Error, using fallback:", e);
-	}
-	return null;
-}
 async function fetchSettlements() {
 	try {
 		await fetchUsers();
@@ -208,8 +190,12 @@ async function fetchSettlements() {
 			id: `s${s.id}`,
 			date: s.settlement_date || (/* @__PURE__ */ new Date()).toISOString().split("T")[0],
 			payer: resolveMember(s.payer_id).name,
+			payerId: s.payer_id,
 			receiver: resolveMember(s.receiver_id).name,
-			amount: s.amount
+			receiverId: s.receiver_id,
+			amount: s.amount,
+			groupId: `g${s.group_id}`,
+			groupIdRaw: s.group_id
 		}));
 	} catch (e) {
 		console.error("API Error, using fallback:", e);
@@ -231,5 +217,24 @@ async function deleteMembership(userId, groupId) {
 	if (!res.ok) throw new Error("Failed to delete membership");
 	return res.json();
 }
+async function deleteGroup(groupId) {
+	const res = await fetch(`${API_BASE_URL}/groups/${groupId}`, { method: "DELETE" });
+	if (!res.ok) throw new Error("Failed to delete group");
+	return res.json();
+}
+async function deleteUser(userId) {
+	const res = await fetch(`${API_BASE_URL}/auth/users/${userId}`, { method: "DELETE" });
+	if (!res.ok) throw new Error("Failed to delete user");
+	return res.json();
+}
+async function createSettlement(settlement) {
+	const res = await fetch(`${API_BASE_URL}/settlements/`, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(settlement)
+	});
+	if (!res.ok) throw new Error("Failed to record settlement");
+	return res.json();
+}
 //#endregion
-export { deleteMembership as a, fetchGroups as c, registerUser as d, uploadCSV as f, deleteExpense as i, fetchSettlements as l, createGroup as n, fetchBalances as o, createMembership as r, fetchExpenses as s, createExpense as t, fetchUsers as u };
+export { deleteExpense as a, deleteUser as c, fetchSettlements as d, fetchUsers as f, createSettlement as i, fetchExpenses as l, uploadCSV as m, createGroup as n, deleteGroup as o, registerUser as p, createMembership as r, deleteMembership as s, createExpense as t, fetchGroups as u };

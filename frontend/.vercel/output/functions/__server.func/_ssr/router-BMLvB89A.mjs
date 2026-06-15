@@ -1,15 +1,15 @@
 import { r as __toESM } from "../_runtime.mjs";
 import { n as require_react } from "../_libs/@radix-ui/react-compose-refs+[...].mjs";
 import { n as require_jsx_runtime, t as QueryClientProvider } from "../_libs/react+tanstack__react-query.mjs";
-import { D as Bell, _ as HandCoins, d as Receipt, f as Plus, g as LayoutDashboard, i as Upload, l as Search, m as Menu, n as Users, u as Scale, x as FileChartColumnIncreasing } from "../_libs/lucide-react.mjs";
+import { C as FileChartColumnIncreasing, d as Receipt, f as Plus, h as Menu, i as Upload, k as Bell, l as Search, n as Users, u as Scale, v as LayoutDashboard, y as HandCoins } from "../_libs/lucide-react.mjs";
 import { n as cn, t as Button } from "./button-BpE9Czok.mjs";
 import { t as Input } from "./input-NvmijQlt.mjs";
 import { _ as useRouter, c as HeadContent, d as createRouter, f as Outlet, g as Link, h as createRootRouteWithContext, l as useRouterState, m as createFileRoute, p as lazyRouteComponent, s as Scripts } from "../_libs/@tanstack/react-router+[...].mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-Ci42Pkjj.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-BMLvB89A.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-BFlEBS8t.css";
+var styles_default = "/assets/styles-CmsHKfP1.css";
 function reportLovableError(error, context = {}) {
 	if (typeof window === "undefined") return;
 	window.__lovableEvents?.captureException?.(error, {
@@ -47,6 +47,11 @@ var nav = [
 		to: "/settlements",
 		label: "Settlements",
 		icon: HandCoins
+	},
+	{
+		to: "/friends",
+		label: "Friends",
+		icon: Users
 	},
 	{
 		to: "/import-csv",
@@ -255,7 +260,7 @@ function ErrorComponent({ error, reset }) {
 		})
 	});
 }
-var Route$7 = createRootRouteWithContext()({
+var Route$8 = createRootRouteWithContext()({
 	head: () => ({
 		meta: [
 			{ charSet: "utf-8" },
@@ -325,45 +330,53 @@ function RootShell({ children }) {
 	});
 }
 function RootComponent() {
-	const { queryClient } = Route$7.useRouteContext();
+	const { queryClient } = Route$8.useRouteContext();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(QueryClientProvider, {
 		client: queryClient,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AppLayout, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {}) })
 	});
 }
-var $$splitComponentImporter$6 = () => import("./settlements-CtfMpm1K.mjs");
-var Route$6 = createFileRoute("/settlements")({
+var $$splitComponentImporter$7 = () => import("./settlements-Bt-93Lsc.mjs");
+var Route$7 = createFileRoute("/settlements")({
 	head: () => ({ meta: [{ title: "Settlements — SplitWell" }, {
 		name: "description",
-		content: "Record and review settled debts."
+		content: "Record and review settled debts per group."
 	}] }),
-	component: lazyRouteComponent($$splitComponentImporter$6, "component")
+	component: lazyRouteComponent($$splitComponentImporter$7, "component")
 });
-var $$splitComponentImporter$5 = () => import("./import-reports-aIhvvDMj.mjs");
-var Route$5 = createFileRoute("/import-reports")({
+var $$splitComponentImporter$6 = () => import("./import-reports-B66FG913.mjs");
+var Route$6 = createFileRoute("/import-reports")({
 	head: () => ({ meta: [{ title: "Import Reports — SplitWell" }, {
 		name: "description",
 		content: "Review anomalies surfaced during CSV imports."
 	}] }),
-	component: lazyRouteComponent($$splitComponentImporter$5, "component")
+	component: lazyRouteComponent($$splitComponentImporter$6, "component")
 });
-var $$splitComponentImporter$4 = () => import("./import-csv-jbvLY0Zx.mjs");
-var Route$4 = createFileRoute("/import-csv")({
+var $$splitComponentImporter$5 = () => import("./import-csv-D-O9-Nf7.mjs");
+var Route$5 = createFileRoute("/import-csv")({
 	head: () => ({ meta: [{ title: "Import CSV — SplitWell" }, {
 		name: "description",
 		content: "Bring in messy CSV expense data with anomaly detection."
 	}] }),
-	component: lazyRouteComponent($$splitComponentImporter$4, "component")
+	component: lazyRouteComponent($$splitComponentImporter$5, "component")
 });
-var $$splitComponentImporter$3 = () => import("./groups-DXZGuq8b.mjs");
-var Route$3 = createFileRoute("/groups")({
+var $$splitComponentImporter$4 = () => import("./groups-Du3Bb6dl.mjs");
+var Route$4 = createFileRoute("/groups")({
 	head: () => ({ meta: [{ title: "Groups — SplitWell" }, {
 		name: "description",
 		content: "Manage your expense groups and members."
 	}] }),
+	component: lazyRouteComponent($$splitComponentImporter$4, "component")
+});
+var $$splitComponentImporter$3 = () => import("./friends-BwWmsAWr.mjs");
+var Route$3 = createFileRoute("/friends")({
+	head: () => ({ meta: [{ title: "Friends — SplitWell" }, {
+		name: "description",
+		content: "Manage your friends and group members."
+	}] }),
 	component: lazyRouteComponent($$splitComponentImporter$3, "component")
 });
-var $$splitComponentImporter$2 = () => import("./expenses-CfWEdsKX.mjs");
+var $$splitComponentImporter$2 = () => import("./expenses-YY6Z6DoB.mjs");
 var Route$2 = createFileRoute("/expenses")({
 	head: () => ({ meta: [{ title: "Expenses — SplitWell" }, {
 		name: "description",
@@ -371,15 +384,15 @@ var Route$2 = createFileRoute("/expenses")({
 	}] }),
 	component: lazyRouteComponent($$splitComponentImporter$2, "component")
 });
-var $$splitComponentImporter$1 = () => import("./balances-DakH_vDS.mjs");
+var $$splitComponentImporter$1 = () => import("./balances-DgilGkzN.mjs");
 var Route$1 = createFileRoute("/balances")({
 	head: () => ({ meta: [{ title: "Balances — SplitWell" }, {
 		name: "description",
-		content: "See who owes who and why."
+		content: "See who owes whom and why, categorized by group."
 	}] }),
 	component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-var $$splitComponentImporter = () => import("./routes-Cck-pUOb.mjs");
+var $$splitComponentImporter = () => import("./routes-CfvVNAJt.mjs");
 var Route = createFileRoute("/")({
 	head: () => ({ meta: [
 		{ title: "Dashboard — SplitWell" },
@@ -398,50 +411,56 @@ var Route = createFileRoute("/")({
 	] }),
 	component: lazyRouteComponent($$splitComponentImporter, "component")
 });
-var SettlementsRoute = Route$6.update({
+var SettlementsRoute = Route$7.update({
 	id: "/settlements",
 	path: "/settlements",
-	getParentRoute: () => Route$7
+	getParentRoute: () => Route$8
 });
-var ImportReportsRoute = Route$5.update({
+var ImportReportsRoute = Route$6.update({
 	id: "/import-reports",
 	path: "/import-reports",
-	getParentRoute: () => Route$7
+	getParentRoute: () => Route$8
 });
-var ImportCsvRoute = Route$4.update({
+var ImportCsvRoute = Route$5.update({
 	id: "/import-csv",
 	path: "/import-csv",
-	getParentRoute: () => Route$7
+	getParentRoute: () => Route$8
 });
-var GroupsRoute = Route$3.update({
+var GroupsRoute = Route$4.update({
 	id: "/groups",
 	path: "/groups",
-	getParentRoute: () => Route$7
+	getParentRoute: () => Route$8
+});
+var FriendsRoute = Route$3.update({
+	id: "/friends",
+	path: "/friends",
+	getParentRoute: () => Route$8
 });
 var ExpensesRoute = Route$2.update({
 	id: "/expenses",
 	path: "/expenses",
-	getParentRoute: () => Route$7
+	getParentRoute: () => Route$8
 });
 var BalancesRoute = Route$1.update({
 	id: "/balances",
 	path: "/balances",
-	getParentRoute: () => Route$7
+	getParentRoute: () => Route$8
 });
 var rootRouteChildren = {
 	IndexRoute: Route.update({
 		id: "/",
 		path: "/",
-		getParentRoute: () => Route$7
+		getParentRoute: () => Route$8
 	}),
 	BalancesRoute,
 	ExpensesRoute,
+	FriendsRoute,
 	GroupsRoute,
 	ImportCsvRoute,
 	ImportReportsRoute,
 	SettlementsRoute
 };
-var routeTree = Route$7._addFileChildren(rootRouteChildren)._addFileTypes();
+var routeTree = Route$8._addFileChildren(rootRouteChildren)._addFileTypes();
 var getRouter = () => {
 	return createRouter({
 		routeTree,

@@ -23,6 +23,7 @@ const nav = [
   { to: "/expenses", label: "Expenses", icon: Receipt },
   { to: "/balances", label: "Balances", icon: Scale },
   { to: "/settlements", label: "Settlements", icon: HandCoins },
+  { to: "/friends", label: "Friends", icon: Users },
   { to: "/import-csv", label: "Import CSV", icon: Upload },
   { to: "/import-reports", label: "Import Reports", icon: FileBarChart },
 ] as const;

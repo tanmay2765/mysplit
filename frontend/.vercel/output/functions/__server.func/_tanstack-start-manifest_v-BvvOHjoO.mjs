@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-Bn9ncwKN.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-BvvOHjoO.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/__root.tsx",
@@ -6,90 +6,98 @@ var tsrStartManifest = () => ({ routes: {
 			"/",
 			"/balances",
 			"/expenses",
+			"/friends",
 			"/groups",
 			"/import-csv",
 			"/import-reports",
 			"/settlements"
 		],
-		preloads: ["/assets/index-1rbqNdOX.js", "/assets/createLucideIcon-B4jqqaQH.js"],
+		preloads: ["/assets/index-BKWM6r6D.js", "/assets/createLucideIcon-B4jqqaQH.js"],
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-1rbqNdOX.js"
+			src: "/assets/index-BKWM6r6D.js"
 		} }]
 	},
 	"/": {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/routes-BifhtcHm.js",
+			"/assets/routes-35378xJ9.js",
 			"/assets/triangle-alert-ClKRVLSO.js",
-			"/assets/user-plus-CxkVjsN7.js",
-			"/assets/api-CN65D_1u.js",
+			"/assets/clock-DaLkDvTS.js",
+			"/assets/api-Dreb4zTL.js",
+			"/assets/user-plus-DffduZPn.js",
 			"/assets/x-CjPMIupY.js",
-			"/assets/mock-data-uw9tCfO6.js"
+			"/assets/mock-data-DTRxSagp.js"
 		]
 	},
 	"/balances": {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/balances.tsx",
 		children: void 0,
-		preloads: [
-			"/assets/balances-DgaymaxS.js",
-			"/assets/api-CN65D_1u.js",
-			"/assets/mock-data-uw9tCfO6.js"
-		]
+		preloads: ["/assets/balances-B5G3q9Kr.js", "/assets/api-Dreb4zTL.js"]
 	},
 	"/expenses": {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/expenses.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/expenses-D6Gy95FK.js",
-			"/assets/api-CN65D_1u.js",
+			"/assets/expenses-DxXOvncI.js",
+			"/assets/api-Dreb4zTL.js",
+			"/assets/trash-2-2TCgjhSt.js",
 			"/assets/x-CjPMIupY.js",
-			"/assets/mock-data-uw9tCfO6.js"
+			"/assets/mock-data-DTRxSagp.js"
+		]
+	},
+	"/friends": {
+		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/friends.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/friends-Ccdvl_8z.js",
+			"/assets/api-Dreb4zTL.js",
+			"/assets/trash-2-2TCgjhSt.js",
+			"/assets/user-plus-DffduZPn.js",
+			"/assets/x-CjPMIupY.js"
 		]
 	},
 	"/groups": {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/groups.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/groups-DPeBMgvJ.js",
+			"/assets/groups-DZMTHfA4.js",
 			"/assets/check-CLYb6C-z.js",
-			"/assets/user-plus-CxkVjsN7.js",
-			"/assets/api-CN65D_1u.js",
+			"/assets/clock-DaLkDvTS.js",
+			"/assets/api-Dreb4zTL.js",
+			"/assets/trash-2-2TCgjhSt.js",
+			"/assets/user-plus-DffduZPn.js",
 			"/assets/x-CjPMIupY.js",
-			"/assets/mock-data-uw9tCfO6.js"
+			"/assets/mock-data-DTRxSagp.js"
 		]
 	},
 	"/import-csv": {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/import-csv.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/import-csv-CPSuHQ6Y.js",
+			"/assets/import-csv-DjhmLzB7.js",
 			"/assets/check-CLYb6C-z.js",
 			"/assets/triangle-alert-ClKRVLSO.js",
-			"/assets/api-CN65D_1u.js"
+			"/assets/api-Dreb4zTL.js"
 		]
 	},
 	"/import-reports": {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/import-reports.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/import-reports-CokCBOJO.js",
+			"/assets/import-reports-BwBLansL.js",
 			"/assets/check-CLYb6C-z.js",
 			"/assets/triangle-alert-ClKRVLSO.js",
 			"/assets/x-CjPMIupY.js",
-			"/assets/mock-data-uw9tCfO6.js"
+			"/assets/mock-data-DTRxSagp.js"
 		]
 	},
 	"/settlements": {
 		filePath: "/Users/tanmaydhiman/Desktop/mysplit/frontend/src/routes/settlements.tsx",
 		children: void 0,
-		preloads: [
-			"/assets/settlements-B0C7sAqt.js",
-			"/assets/api-CN65D_1u.js",
-			"/assets/mock-data-uw9tCfO6.js"
-		]
+		preloads: ["/assets/settlements-CpySlwfm.js", "/assets/api-Dreb4zTL.js"]
 	}
 } });
 //#endregion

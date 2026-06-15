@@ -23,6 +23,11 @@ class Settlement(Base):
         ForeignKey("users.id")
     )
 
+    group_id = Column(
+        Integer,
+        ForeignKey("groups.id")
+    )
+
     amount = Column(Float)
 
     settlement_date = Column(Date)
